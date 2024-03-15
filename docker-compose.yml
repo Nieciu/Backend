@@ -2,11 +2,11 @@ version: '3'
 
 services:
   web:
-    build: ./backend/
-    command: python eurovision/manage.py runserver 0.0.0.0:8000
+    build: ./Backend/
+    command: python eurovision/manage.py runserver 127.0.0.1:8000
     volumes:
-      - .:/code
-    expose:
+      - .:/Backend/code
+    ports:
       - "8000:8000"
     networks:
       - "backend"
