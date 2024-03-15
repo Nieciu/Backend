@@ -6,4 +6,4 @@ def country_list(request):
 
     countries = Country.objects.all()
     serializer = CountrySerializer(countries, many=True)
-    return JsonResponse(serializer.data)
+    return JsonResponse(serializer.data, safe=False)
