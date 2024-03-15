@@ -4,4 +4,4 @@ from .models import Country
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        firlds = ['code', 'country_name']
+        fields = ['code', 'country_name']
