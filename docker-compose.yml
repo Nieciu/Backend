@@ -2,9 +2,22 @@ version: '3'
 
 services:
   web:
-    build: .
+    build: ./backend/
     command: python eurovision/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
-    ports:
+    expose:
       - "8000:8000"
+    networks:
+      - "backend"
+
+  nginx:
+    build: ./NGINX/
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - backend
+
+networks:
+  backend:
