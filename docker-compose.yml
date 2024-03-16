@@ -3,13 +3,13 @@ version: '3'
 services:
   web:
     build: ./Backend/
-    command: sh-c "python eurovision/manage.py migrate --run-syncdb && python eurovision/manage.py runserver 0.0.0.0:8000"
+    command: python eurovision/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/Backend/code
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     networks:
-      - "backend"
+      - backend
     env_file:
       - ./Backend/.env.dev
 
@@ -25,3 +25,4 @@ services:
 
 networks:
   backend:
+    driver: bridge

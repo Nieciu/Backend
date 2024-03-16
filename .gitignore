@@ -1,6 +1,2 @@
-
-# ignore database
-*.sqlite3
-
 # ignore cache files
 /eurovision/eurovision/__pycache__/
