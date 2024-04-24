@@ -32,3 +32,35 @@ class Song(models.Model):
 
     class Meta:
         verbose_name_plural = "Songs"
+
+class Participant(models.Model):
+    username = models.CharField(max_length=100, primary_key=True)
+    first_name = models.CharField(max_length=100, blank=False)
+    last_name = models.CharField(max_length=100, blank=False)
+
+    #generate username from first letter of first name and last name
+    def save(self, *args, **kwargs):
+        self.username = self.first_name[0].lower() + self.last_name.lower()
+        super(Participant, self).save(*args, **kwargs)
+
+    def __str__ (self):
+        return self.username
+    
+    class Meta:
+        verbose_name_plural = "Participants"
+
+class Vote(models.Model):
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    #1. Song quality - lyrics, melody, and harmony
+    song_quality = models.IntegerField(default=0)
+    #2. Stage presence - costume, lighting, and choreography
+    stage_presence = models.IntegerField(default=0)
+    #3. Vocal performance - pitch, tone, and range
+    vocal_performance = models.IntegerField(default=0)
+    
+    def __str__ (self):
+        return self.participant.username + " voted for " + self.song.title
+    
+    class Meta:
+        verbose_name_plural = "Votes"
