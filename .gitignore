@@ -7,6 +7,9 @@
 # Ignore .env.dev file
 .env.dev
 
+# Ignore .env.prod file
+.env.prod
+
 # Ignore .env files
 .env
 
