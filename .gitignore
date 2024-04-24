@@ -1,0 +1,12 @@
+# ignore cache files
+/eurovision/eurovision/__pycache__/
+
+# Ignore database file
+*.sqlite3
+
+# Ignore .env.dev file
+.env.dev
+
+# Ignore .env files
+.env
+
