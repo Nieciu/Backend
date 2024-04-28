@@ -67,6 +67,18 @@ pipeline {
                 
             }
         }
+        stage('Load image') {
+            steps {
+                echo 'Loading...'
+                script{
+                    withCredentials([sshUserPrivateKey(credentialsId: 'backend', keyFileVariable: 'keyFile', passphraseVariable: 'pass', usernameVariable: 'username')]) {
+                    def remote = [name:'backend', host: SERVER_IP, user: username, identityFile: keyFile, allowAnyHosts: true]
+                    sshCommand remote: remote, command: "docker load --input backend.tar"
+                    } 
+                }
+                
+            }
+        }
         stage('Run image') {
             steps {
                 echo 'Running...'
