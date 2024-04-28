@@ -13,3 +13,6 @@
 # Ignore .env files
 .env
 
+# Ignore migration files
+
+/eurovision/eurovision/migrations/
