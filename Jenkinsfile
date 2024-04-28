@@ -21,17 +21,17 @@ pipeline {
             }
         }
         
-        stage('Test') {
-          steps {
-            echo 'Testing...'
-            sh 'docker run -p 8000:8000 --env-file ${ENV_FILE} --name django-eurovision-test django-eurovision python manage.py test'
-            }
-        }
-        
         stage('Destroy Test') {
           steps {
             echo 'Destroying test...'
             sh 'docker rm django-eurovision-test'
+            }
+        }
+        
+        stage('Test') {
+          steps {
+            echo 'Testing...'
+            sh 'docker run -p 8000:8000 --env-file ${ENV_FILE} --name django-eurovision-test django-eurovision python manage.py test'
             }
         }
         
