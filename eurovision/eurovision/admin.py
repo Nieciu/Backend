@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import Country, Voter, Contestant, Song
 
-admin.site.register(Country, Contestant, Song)
+admin.site.register(Country)
+admin.site.register(Contestant)
+admin.site.register(Song)
 
 class VoterAdminForm(admin.ModelAdmin):
     model = Voter
