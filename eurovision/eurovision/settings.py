@@ -141,6 +141,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = os.environ.get("DJANGO_CORS_ALLOWED_ORIGINS").split(" ")
 
+CORS_ALLOW_ALL_ORIGINS = bool(int(os.environ.get("DJANGO_CORS_ALLOW_ALL_ORIGINS", 0)))
+
 # CSRF
 
 CSRF_TRUSTED_ORIGINS = os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS").split(" ")
+
