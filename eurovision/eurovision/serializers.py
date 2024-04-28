@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Country, Contestant, Song
+from .models import Country, Contestant, Song, Vote, Voter
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ['code', 'country_name']
+        fields = ['country_name', 'euro_flag_url', 'final_order']
 
 class ContestantSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +14,14 @@ class ContestantSerializer(serializers.ModelSerializer):
 class SongSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
-        fields = ['contestant', 'title', 'yt_video_url']
+        fields = ['contestant', 'title', 'yt_video_url', 'lyrics_original', 'lyrics_translated']
+
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vote
+        fields = ['voter', 'song', 'song_quality', 'stage_presence', 'vocal_performance']
+
+class VoterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Voter
+        fields = ['username', 'first_name', 'last_name']
