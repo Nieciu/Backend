@@ -74,3 +74,9 @@ def create_votes(sender, instance, created, **kwargs):
     if created:
         for song in Song.objects.all():
             Vote.objects.create(voter=instance, song=song)
+
+@receiver(post_save, sender=Song)
+def create_votes(sender, instance, created, **kwargs):
+    if created:
+        for voter in Voter.objects.all():
+            Vote.objects.create(voter=voter, song=instance)
