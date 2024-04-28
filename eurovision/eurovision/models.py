@@ -17,7 +17,8 @@ class Contestant(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     artist = models.CharField(max_length=100, primary_key=True)
     about = models.TextField(default=None, null=True, blank=True)
-
+    picture_url = models.URLField(max_length=300, null=True, default=None, blank=True)
+    
     def __str__ (self):
         return self.artist
 
