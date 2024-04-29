@@ -12,6 +12,7 @@ urlpatterns = [
     path('songs/', views.song_list),
     # path('songs/<str:title>/', views.song_detail),
     # all votes of the user
+    # path('results/', views.results),
     path('votes/<str:username>/', views.vote_list),
     # here you can PUT a vote
     # everything else is just a GET
