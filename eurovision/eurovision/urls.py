@@ -7,10 +7,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     
     path('countries/', views.country_list),
-    # path('countries/<str:country_name>/', views.country_detail),
+    path('countries/<str:country_name>/', views.country_detail),
     # path('contestants/', views.contestant_list),
-    # path('contestants/<str:artist>/', views.contestant_detail),
-    # path('songs/', views.song_list),
+    path('songs/', views.song_list),
     # path('songs/<str:title>/', views.song_detail),
     # all votes of the user
     path('votes/<str:username>/', views.vote_list),
