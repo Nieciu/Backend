@@ -1,21 +1,37 @@
 from django.http import JsonResponse
-from django.db.utils import IntegrityError
-from django.contrib.auth.models import User
-from .models import Country, Voter, Vote
-from .serializers import CountrySerializer, VoterSerializer, VoteSerializer
+from .models import Country, Voter, Vote, Song, Contestant
+from .serializers import CountrySerializer, VoterSerializer, VoteSerializer, SongSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+#endpoint for the list of countries, artist names and song titles
 @api_view(['GET'])
 def country_list(request):
     countries = Country.objects.all()
-    serializer = CountrySerializer(countries, many=True)
-    return Response(serializer.data)
+    contestants = Contestant.objects.all()
+    songs = Song.objects.all()
+    country_list = [country.country_name for country in countries]
+    artist_list = [contestant.artist for contestant in contestants]
+    song_list = [song.title for song in songs]
+    return JsonResponse({"countries": country_list, "artists": artist_list, "songs": song_list}, safe=False)
 
 @api_view(['GET'])
-def country_detail(request, pk):
-    country = Country.objects.get(code=pk)
+def country_detail(request, country_name):
+    country = Country.objects.get(country_name=country_name)
     serializer = CountrySerializer(country, many=False)
+    return Response(serializer.data)
+#TODO: implement the rest of the details including contestants
+
+@api_view(['GET'])
+def song_list(request):
+    songs = Song.objects.all()
+    title = [song.title for song in songs]
+    return JsonResponse(title, safe=False)
+    
+@api_view(['GET'])
+def song_detail(request, title):
+    song = Song.objects.get(title=title)
+    serializer = SongSerializer(song, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
