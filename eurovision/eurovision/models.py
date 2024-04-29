@@ -1,6 +1,7 @@
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from unidecode import unidecode
 
 class Country(models.Model):
     country_name = models.CharField(max_length=100, primary_key=True)
@@ -46,6 +47,7 @@ class Voter(models.Model):
     #generate username from first letter of first name and last name
     def save(self, *args, **kwargs):
         self.username = self.first_name[0].lower() + self.last_name.lower()
+        self.username = unidecode(self.username)
         super(Voter, self).save(*args, **kwargs)
 
     def __str__ (self):
