@@ -71,6 +71,8 @@ class Vote(models.Model):
     
     class Meta:
         verbose_name_plural = "Votes"
+    
+
 
 @receiver(post_save, sender=Voter)
 def create_votes(sender, instance, created, **kwargs):
@@ -83,3 +85,5 @@ def create_votes(sender, instance, created, **kwargs):
     if created:
         for voter in Voter.objects.all():
             Vote.objects.create(voter=voter, song=instance)
+
+#TODO results

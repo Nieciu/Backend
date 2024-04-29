@@ -1,19 +1,20 @@
 from django.http import JsonResponse
-from .models import Country, Voter, Vote, Song, Contestant
+from .models import Country, Voter, Vote, Song
 from .serializers import CountrySerializer, VoterSerializer, VoteSerializer, SongSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-#endpoint for the list of countries, artist names and song titles
-@api_view(['GET'])
+#endpoint for the list of countries, artist names and song titles for each country
 def country_list(request):
-    countries = Country.objects.all()
-    contestants = Contestant.objects.all()
     songs = Song.objects.all()
-    country_list = [country.country_name for country in countries]
-    artist_list = [contestant.artist for contestant in contestants]
-    song_list = [song.title for song in songs]
-    return JsonResponse({"countries": country_list, "artists": artist_list, "songs": song_list}, safe=False)
+    data = []
+    for song in songs:
+        data.append({
+            'country': song.contestant.country.country_name,
+            'artist': song.contestant.artist,
+            'song': song.title
+        })
+    return JsonResponse(data, safe=False)
 
 @api_view(['GET'])
 def country_detail(request, country_name):
