@@ -58,7 +58,7 @@ class Voter(models.Model):
 
 class Vote(models.Model):
     voter = models.ForeignKey(Voter, on_delete=models.CASCADE)
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
     #1. Song quality - lyrics, melody, and harmony
     song_quality = models.IntegerField(default=None, null=True)
     #2. Stage presence - costume, lighting, and choreography
@@ -73,17 +73,17 @@ class Vote(models.Model):
         verbose_name_plural = "Votes"
     
 
-
+#auro generate votes for each voter and country
 @receiver(post_save, sender=Voter)
 def create_votes(sender, instance, created, **kwargs):
     if created:
-        for song in Song.objects.all():
-            Vote.objects.create(voter=instance, song=song)
+        for country in Country.objects.all():
+            Vote.objects.create(voter=instance, country=country)
 
-@receiver(post_save, sender=Song)
+@receiver(post_save, sender=Country)
 def create_votes(sender, instance, created, **kwargs):
     if created:
         for voter in Voter.objects.all():
-            Vote.objects.create(voter=voter, song=instance)
+            Vote.objects.create(voter=voter, country=instance)
 
 #TODO results

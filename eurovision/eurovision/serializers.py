@@ -19,7 +19,7 @@ class SongSerializer(serializers.ModelSerializer):
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
-        fields = ['voter', 'song', 'song_quality', 'stage_presence', 'vocal_performance']
+        fields = ['voter', 'country', 'song_quality', 'stage_presence', 'vocal_performance']
 
 class VoterSerializer(serializers.ModelSerializer):
     class Meta:

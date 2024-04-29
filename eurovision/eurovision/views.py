@@ -4,7 +4,7 @@ from .serializers import CountrySerializer, VoterSerializer, VoteSerializer, Son
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-#endpoint for the list of countries, artist names and song titles for each country
+@api_view(['GET'])
 def country_list(request):
     songs = Song.objects.all()
     data = []
@@ -48,16 +48,16 @@ def vote_list(request, username):
     return Response(serializer.data)
 
 @api_view(['PUT'])
-def vote_detail(request, username, song):
+def vote_detail(request, username, country):
     voter = Voter.objects.filter(username=username).first()
     if not voter:
         return Response({"detail": "Voter not found."}, status=404)
     
-    vote = Vote.objects.filter(voter=voter, song__title=song).first()
+    vote = Vote.objects.filter(voter=voter, country__country_name=country).first()
     if not vote:
         return Response({"detail": "Vote not found."}, status=404)
-
-    serializer = VoteSerializer(vote, data=request.data)
+    data = {**request.data, 'username': username, 'country':country}
+    serializer = VoteSerializer(instance=vote, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
