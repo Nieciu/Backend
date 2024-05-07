@@ -1,6 +1,7 @@
 from django.http import JsonResponse
+from django.db.models import F, Avg
 from .models import Country, Voter, Vote, Song
-from .serializers import CountrySerializer, VoterSerializer, VoteSerializer, SongSerializer
+from .serializers import CountrySerializer, VoterSerializer, VoteSerializer, SongSerializer, CountryScoreSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -49,16 +50,34 @@ def vote_list(request, username):
 
 @api_view(['PUT'])
 def vote_detail(request, username, country):
-    voter = Voter.objects.filter(username=username).first()
-    if not voter:
-        return Response({"detail": "Voter not found."}, status=404)
-    
-    vote = Vote.objects.filter(voter=voter, country__country_name=country).first()
-    if not vote:
-        return Response({"detail": "Vote not found."}, status=404)
-    data = {**request.data, 'username': username, 'country':country}
-    serializer = VoteSerializer(instance=vote, data=data)
+    try:
+        voter = Voter.objects.get(username=username)
+        country = Country.objects.get(country_name=country)
+        vote = Vote.objects.get(voter=voter, country=country)
+    except Voter.DoesNotExist:
+        return Response({'error': 'Voter not found'}, status=404)
+    except Country.DoesNotExist:
+        return Response({'error': 'Country not found'}, status=404)
+    except Vote.DoesNotExist:
+        return Response({'error': 'Vote not found'}, status=404)
+
+    serializer = VoteSerializer(vote, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=400)
+
+@api_view(['GET'])
+def results(request):
+    countries = Country.objects.filter(
+        vote__song_quality__isnull=False, 
+        vote__stage_presence__isnull=False, 
+        vote__vocal_performance__isnull=False
+    ).annotate(
+        final_score=Avg(
+            (F('vote__song_quality') + F('vote__stage_presence') + F('vote__vocal_performance')) / 3.0
+        )
+    ).order_by('-final_score')
+
+    serializer = CountryScoreSerializer(countries, many=True)
+    return Response(serializer.data)

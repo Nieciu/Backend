@@ -25,3 +25,7 @@ class VoterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Voter
         fields = ['username', 'first_name', 'last_name']
+
+class CountryScoreSerializer(serializers.Serializer):
+    country_name = serializers.CharField()
+    final_score = serializers.FloatField()

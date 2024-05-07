@@ -17,4 +17,5 @@ urlpatterns = [
     path('votes/<str:username>/<str:country>/', views.vote_detail),
     # take username from here
     path('voters/', views.voter_list),
+    path('results/', views.results),
 ]
