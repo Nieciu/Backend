@@ -81,3 +81,36 @@ def results(request):
 
     serializer = CountryScoreSerializer(countries, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def song_quality(request):
+    countries = Country.objects.filter(
+        vote__song_quality__isnull=False
+    ).annotate(
+        final_score=Avg('vote__song_quality')
+    ).order_by('-final_score')
+
+    serializer = CountryScoreSerializer(countries, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def stage_presence(request):
+    countries = Country.objects.filter(
+        vote__stage_presence__isnull=False
+    ).annotate(
+        final_score=Avg('vote__stage_presence')
+    ).order_by('-final_score')
+
+    serializer = CountryScoreSerializer(countries, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def vocal_performance(request):
+    countries = Country.objects.filter(
+        vote__vocal_performance__isnull=False
+    ).annotate(
+        final_score=Avg('vote__vocal_performance')
+    ).order_by('-final_score')
+
+    serializer = CountryScoreSerializer(countries, many=True)
+    return Response(serializer.data)
