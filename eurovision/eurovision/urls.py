@@ -18,7 +18,7 @@ urlpatterns = [
     # take username from here
     path('voters/', views.voter_list),
     path('results/', views.results),
-    path('results/song-quality', views.song_quality),
-    path('results/stage-presence', views.stage_presence),
-    path('results/vocal-performance', views.vocal_performance),
+    path('results/song-quality/', views.song_quality),
+    path('results/stage-presence/', views.stage_presence),
+    path('results/vocal-performance/', views.vocal_performance),
 ]
