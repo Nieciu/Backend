@@ -15,6 +15,11 @@ def country_list(request):
             'artist': song.contestant.artist,
             'song': song.title
         })
+    #send data in utf format if format header is set to true
+
+    if request.META.get('HTTP_FORMAT') == 'true':
+        return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
     return JsonResponse(data, safe=False)
 
 @api_view(['GET'])
