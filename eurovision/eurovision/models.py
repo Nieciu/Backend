@@ -67,13 +67,12 @@ class Vote(models.Model):
     vocal_performance = models.IntegerField(default=None, null=True)
     
     def __str__ (self):
-        return self.participant.username + " voted for " + self.song.title
+        return self.voter.username + " voted for " + self.country.country_name
     
     class Meta:
         verbose_name_plural = "Votes"
     
 
-#auro generate votes for each voter and country
 @receiver(post_save, sender=Voter)
 def create_votes(sender, instance, created, **kwargs):
     if created:
@@ -85,5 +84,3 @@ def create_votes(sender, instance, created, **kwargs):
     if created:
         for voter in Voter.objects.all():
             Vote.objects.create(voter=voter, country=instance)
-
-#TODO results
