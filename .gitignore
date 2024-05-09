@@ -16,3 +16,7 @@
 # Ignore migration files
 
 /eurovision/eurovision/migrations/
+
+# Ignore deployment files
+
+/deployment/
