@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, Voter, Contestant, Song
+from .models import Country, Voter, Contestant, Song, Vote
 
 admin.site.register(Country)
 admin.site.register(Contestant)
@@ -14,3 +14,12 @@ class VoterAdminForm(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(Voter, VoterAdminForm)
+
+def reset_votes(modeladmin, request, queryset):
+    queryset.update(song_quality=None, stage_presence=None, vocal_performance=None)
+reset_votes.short_description = "Reset Votes"
+
+class VoteAdmin(admin.ModelAdmin):
+    actions = [reset_votes]
+
+admin.site.register(Vote, VoteAdmin)
