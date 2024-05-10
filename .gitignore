@@ -20,3 +20,7 @@
 # Ignore deployment files
 
 /deployment/
+
+# Ignore static files
+
+/static/
