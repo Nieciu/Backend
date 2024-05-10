@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 @api_view(['GET'])
 def country_list(request):
-    songs = Song.objects.all()
+    songs = Song.objects.exclude(contestant__country__final_order__isnull=True).order_by('contestant__country__final_order')
     data = []
     for song in songs:
         data.append({
